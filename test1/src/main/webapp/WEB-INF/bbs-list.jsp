@@ -124,6 +124,7 @@ var app = new Vue({
     	fnGetList : function(){
             var self = this;
             <!-- 페이징 추가 6-->
+            /* selectPage 시작점에서 ~까지 가져올지  */
 			var startNum = ((self.selectPage-1) * 10);
     		var lastNum = (self.selectPage * 10) + 1
             var nparmap = {keyword : self.keyword, kind : self.selectItem, startNum : startNum, lastNum : lastNum};

@@ -42,12 +42,14 @@ var app = new Vue({
 		list : [],
 		checkList : [],
 		title : "",
-		content : ""
+		content : "",
+		sessionId : "${sessionId}"
     }   
     , methods: {
     	fnAddBbs : function(){
             var self = this;
-            var nparmap = {title : self.title, content : self.content};
+            var nparmap = {title : self.title, content : self.content, userId:self.sessionId};
+           	console.log(nparmap);
             $.ajax({
                 url:"/bbs/add.dox",
                 dataType:"json",	
