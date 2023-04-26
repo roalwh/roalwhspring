@@ -51,9 +51,9 @@
 		<div class="container">
 			<label>검색어 : <input type="text" v-model="keyword"></label>
 			<select v-model="selectItem">
-				<option value="">:: 전체 ::</option>
-				<option value="1">공지사항</option>
-				<option value="3">자유게시판</option>
+				<option value="1">제목</option>
+				<option value="2">작성자</option>
+				<option value="3">글번호</option>
 			</select>
 			<button class="btn" @click="fnGetList">검색</button>
 			<div class="table-list">
@@ -72,7 +72,7 @@
 	                <tbody>
 	                    <tr v-for="(item, index) in list" > 
 	                   <!-- <td><input type="checkbox" v-bind:value = "item" v-model="checkList"></td> -->                 
-	                        <td>{{index + 1}}</td> 
+	                        <td>{{item.boardNo}}</td> 
 	                        <td @click="fnView(item.boardNo)"><a href="javascript:;">{{item.title}}</a></td>
 	                        <td>{{item.id}}</td>
 	                        <td>{{item.cdatetime}}</td>     

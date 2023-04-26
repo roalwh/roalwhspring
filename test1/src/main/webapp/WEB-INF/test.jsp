@@ -11,7 +11,7 @@
 </style>
 <body>
 	<div id="app">
-		안녕하세요.asdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+		안녕하세요.
 	</div>
 </body>
 </html>
