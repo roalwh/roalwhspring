@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.test1.mapper.BbsMapper">
+	<select id="selectBbsList" parameterType="hashmap" resultType="com.example.test1.model.Bbs">
+		SELECT *
+		FROM (
+			SELECT
+				BOARD_NO,
+				TITLE,
+				ID,
+				DECODE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'), TO_CHAR(CDATETIME, 'YYYY-MM-DD'), TO_CHAR(CDATETIME, 'HH24:MI:SS'), TO_CHAR(CDATETIME, 'YYYY-MM-DD HH24:MI:SS')) AS CDATETIME,
+				CNT,
+				ROWNUM AS RN
+			FROM TBL_BOARD			
+			WHERE 1 = 1
+			<if test="keyword != '' and keyword != null">
+				AND TITLE LIKE '%'||#{keyword}||'%' 
+			</if>
+			<if test="kind != '' and kind != null">
+				AND KIND = #{kind}
+			</if>
+  <![CDATA[ AND ROWNUM < #{lastNum} ]]>
+			ORDER BY CDATETIME ASC
+		)
+		WHERE RN > #{startNum} 
+	</select>
+	
+	<select id="selectBbsCnt" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*) AS CNT
+		FROM TBL_BOARD
+	</select>
+	
+	<insert id="insertBbs" parameterType="hashmap">
+		INSERT INTO TBL_BOARD
+		VALUES
+			(BBS_NO.NEXTVAL, #{title}, #{content}, #{userId}, SYSDATE, SYSDATE, 0, '1')
+	</insert>
+	
+	<delete id="deleteBbs" parameterType="hashmap">
+		DELETE FROM TBL_BOARD
+		WHERE BOARD_NO = #{boradKey}
+	</delete>
+	
+	<select id="getBbs" parameterType="hashmap" resultType="com.example.test1.model.Bbs">
+		SELECT
+			BOARD_NO,
+			TITLE,
+			CONTENT,
+			ID,
+			CDATETIME,
+			CNT   
+		FROM TBL_BOARD			
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<update id="updateBbs" parameterType="hashmap">
+		UPDATE TBL_BOARD
+		SET
+			TITLE = #{title},
+			CONTENT = #{content},
+			UDATETIME = SYSDATE
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<update id="updateBbsCnt" parameterType="hashmap">
+		UPDATE TBL_BOARD
+		SET
+			CNT = CNT + 1
+		WHERE BOARD_NO = #{boardNo}
+		
+	</update>
+	
+	<insert id="insertBbsComment" parameterType="hashmap">
+		INSERT INTO T_BOARDCOMMENT
+		VALUES
+			(COMMENT_SEQ.NEXTVAL, #{boardNo}, #{userId}, #{comment}, SYSDATE, SYSDATE, 'N', NULL)
+	</insert>
+	
+	<select id="selectCommentList" parameterType="hashmap" resultType="com.example.test1.model.Comment">
+		SELECT 
+			COMMENT_NO,
+			BOARD_NO,
+			ID,
+			CONTENT,
+			CDATETIME,
+			UDATETIME,
+			DELYN,
+			COMMENT_RENO
+		FROM 
+			T_BOARDCOMMENT
+		WHERE BOARD_NO = #{boardNo}
+		ORDER BY CDATETIME ASC
+	</select>
+	
+	<update id="deleteComment" parameterType="hashmap">
+		UPDATE T_BOARDCOMMENT
+		SET
+			DELYN = 'Y',
+			UDATETIME = SYSDATE
+		WHERE COMMENT_NO = #{commentNo}
+	</update>
+	
+	<update id="updateComment" parameterType="hashmap">
+		UPDATE T_BOARDCOMMENT
+		SET
+			CONTENT = #{content},
+			UDATETIME = SYSDATE
+		WHERE COMMENT_NO = #{commentNo}
+		
+	</update>
+	
+	
+</mapper>
