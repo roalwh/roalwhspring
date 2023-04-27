@@ -21,4 +21,7 @@ public interface LoginMapper {
 	int selectMypageUserCnt(HashMap<String, Object> map);
 	
 	User selectUserJoinList(HashMap<String, Object> map);
+
+	void updateUser(HashMap<String, Object> map);
+	
 }
