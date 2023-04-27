@@ -59,8 +59,16 @@ public class LoginServiceImpl implements LoginService{
 	public HashMap<String, Object> searchUserJoinInfo(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("list", loginMapper.selectUserJoinList(map));
+		
 		
 		
 		return resultMap;
+	}
+
+	@Override
+	public void editUser(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		loginMapper.updateUser(map);
 	}
 }

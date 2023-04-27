@@ -62,29 +62,29 @@
 	</head>
 	<body>
 		<div id="app" class="div1">
-		<template v-if="sessionId !=''">
+		<template v-if="sessionId !=''" >
 			<h2>회원정보수정</h2>
 			<div class="div2">
-				<input @keyup="fnChange" v-model="info.joinId" type="text" class="in" placeholder="아이디" ></input>
+				<input @keyup="fnChange" v-model="userlist.id" type="text" class="in" placeholder="아이디" disabled></input>
 			</div>
 			<div class="div2">
-				<input v-model="info.pwd1" type="password" class="in" placeholder="비밀번호"></input>
+				<input v-model="password1" type="password" class="in" placeholder="비밀번호"></input>
 			</div>
 			<div class="div2">
-				<input v-model="info.pwd2" type="password" class="in" placeholder="비밀번호 확인"></input>
+				<input v-model="password2" type="password" class="in" placeholder="비밀번호 확인"></input>
 			</div>
 			<div class="div2">
-				<input v-model="info.name" type="text" class="in" placeholder="이름"></input>
+				<input v-model="userlist.name" type="text" class="in" placeholder="이름"></input>
 			</div>
 			<div class="div2">
-				<input v-model="info.nick" type="text" class="in" placeholder="닉네임"></input>
+				<input v-model="userlist.nickname" type="text" class="in" placeholder="닉네임"></input>
 			</div>
 			<div class="div2">
-				<input v-model="info.age" type="number" class="in" placeholder="나이"></input>
+				<input v-model="userlist.age" type="number" class="in" placeholder="나이"></input>
 			</div>
 			<div class="div2">
 				<label>성별 : 
-					<select style="width : 100px;" v-model="info.gender">
+					<select style="width : 100px;" v-model="userlist.gender">
 						<option value="M">남자</option>
 						<option value="F">여자</option>
 					</select>
@@ -92,7 +92,7 @@
 			</div>
 			<div class="div2">
 				<label>주소 : 
-					<select style="width : 100px;" v-model="info.addr">
+					<select style="width : 100px;" v-model="userlist.address">
 						<option value="서울">서울</option>
 						<option value="인천">인천</option>
 						<option value="제주도">제주도</option>
@@ -100,10 +100,13 @@
 				</label>
 			</div>
 			<div class="div2">
-				<button id="btn" @click="fnJoin">회원가입</button>
+				<button id="btn" @click="fnTobbs">게시판으로</button>
+				<button id="btn" @click="fnUserEdit">정보수정</button>
+				
+				
 			</div>
 			</template>
-			
+			<!-- -------------------------------------------------------------------- -->
 			<template v-else>
 			<h2>회원 가입</h2>
 			<div class="div2">
@@ -158,7 +161,7 @@ var app = new Vue({
     el: '#app',
     data: {
 		info : {
-			joinId : "${sessionId}",
+			joinId : "",
 			pwd1 : "",
 			pwd2 : "",
 			name : "",
@@ -169,7 +172,10 @@ var app = new Vue({
 		}
 		, loginFlg : true
 		, userlist:{}
+		,password1:""
+		,password2:""
 		, sessionId:"${sessionId}"
+
     }   
     , methods: {
     	fnJoin : function(){
@@ -249,7 +255,7 @@ var app = new Vue({
 	    }
 	    , fnUserlist : function(){
 	    	var self = this;
-	    	var nparmap = {id : self.joinId};
+	    	var nparmap = {id : self.sessionId};
 	    	console.log(nparmap);
             $.ajax({
                 url:"/user/userlist.dox",
@@ -257,21 +263,47 @@ var app = new Vue({
                 type : "POST", 
                 data : nparmap,
                 success : function(data) {
-                	
-   					self.userlist=data.searchUserlist
-   					console.log(self.userlist);
+					console.log(data.list);
+   					self.userlist=data.list
                 }
             }); 
 	    }
+		, fnUserEdit : function(){
+			var self = this;
+			console.log(self.password1);
+			console.log(self.password2);
+			if(self.password1 != self.password2){
+				alert("비밀번호 확인값이 다릅니다.");
+			}else{
+				var self = this;
+	    		var nparmap = {id : self.userlist.id,password:self.password1,name:self.userlist.name,nickname:self.userlist.nickname,age:self.userlist.age,gender:self.userlist.gender,address:self.userlist.address};
+           		 console.log(nparmap);
+				$.ajax({
+                url:"/user/userEdit.dox",
+                dataType:"json",	
+                type : "POST", 
+                data : nparmap,
+                success : function(data) {
+					alert("완료,로그인창으로!");
+					location.href="/login.do";
+                	}
+				});
+			}
+			
+		}
+		, fnTobbs : function(){
+			location.href="/bbs.do";
+		}
+
     }   
     , created: function () {
     	var self=this;
     	if("sessionId !=''"){
     		self.fnUserlist();
     	}else{
-    		
-    	}
-    	
+    	};
+
+
 	}
 });
 </script>

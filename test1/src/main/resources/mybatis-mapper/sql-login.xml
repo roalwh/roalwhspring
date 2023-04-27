@@ -55,8 +55,19 @@
 			AUTHYN,
 			STATUS
 		FROM T_USER
-		WHERE ID = #{id};
+		WHERE ID = #{id}
 					
 	</select>
+	<update id="updateUser" parameterType="hashmap">
+		UPDATE T_USER 
+		SET
+			PASSWORD=#{password},
+			NAME=#{name},
+			NICKNAME=#{nickname},
+			ADDRESS=#{address},
+			GENDER=#{gender},
+			AGE=#{age}
+		WHERE ID = #{id}
+	</update>
 	
 </mapper>

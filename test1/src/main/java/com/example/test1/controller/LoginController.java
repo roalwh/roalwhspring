@@ -86,16 +86,6 @@ public class LoginController {
 		return new Gson().toJson(resultMap);
 	}
 	
-	@RequestMapping(value = "/user/userlist.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String searchUserlist(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap = loginService.searchUserJoinInfo(map);
-		resultMap.put("result", "success");
-		return new Gson().toJson(resultMap);
-	}
-	
-	
 	@RequestMapping("/mypage.do") 
     public String movemypage(HttpServletRequest request, Model model) throws Exception{
 		request.setAttribute("sessionId", session.getAttribute("sessionId"));
@@ -107,6 +97,26 @@ public class LoginController {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		int passcnkflg = loginService.searchMypageUserCnt(map);
 		resultMap.put("passcnkflg", passcnkflg);
+		resultMap.put("result", "success");
+		return new Gson().toJson(resultMap);
+	}
+	// 회원정보 수정시 기존 정보 조회
+	@RequestMapping(value = "/user/userlist.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String searchUserlist(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = loginService.searchUserJoinInfo(map);
+		
+		resultMap.put("result", "success");
+		return new Gson().toJson(resultMap);
+	}
+	// 회원정보 수정
+	@RequestMapping(value = "/user/userEdit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String UserEdit(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		loginService.editUser(map);
 		resultMap.put("result", "success");
 		return new Gson().toJson(resultMap);
 	}
