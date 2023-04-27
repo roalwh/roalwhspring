@@ -62,6 +62,49 @@
 	</head>
 	<body>
 		<div id="app" class="div1">
+		<template v-if="sessionId !=''">
+			<h2>회원정보수정</h2>
+			<div class="div2">
+				<input @keyup="fnChange" v-model="info.joinId" type="text" class="in" placeholder="아이디" ></input>
+			</div>
+			<div class="div2">
+				<input v-model="info.pwd1" type="password" class="in" placeholder="비밀번호"></input>
+			</div>
+			<div class="div2">
+				<input v-model="info.pwd2" type="password" class="in" placeholder="비밀번호 확인"></input>
+			</div>
+			<div class="div2">
+				<input v-model="info.name" type="text" class="in" placeholder="이름"></input>
+			</div>
+			<div class="div2">
+				<input v-model="info.nick" type="text" class="in" placeholder="닉네임"></input>
+			</div>
+			<div class="div2">
+				<input v-model="info.age" type="number" class="in" placeholder="나이"></input>
+			</div>
+			<div class="div2">
+				<label>성별 : 
+					<select style="width : 100px;" v-model="info.gender">
+						<option value="M">남자</option>
+						<option value="F">여자</option>
+					</select>
+				</label>
+			</div>
+			<div class="div2">
+				<label>주소 : 
+					<select style="width : 100px;" v-model="info.addr">
+						<option value="서울">서울</option>
+						<option value="인천">인천</option>
+						<option value="제주도">제주도</option>
+					</select>
+				</label>
+			</div>
+			<div class="div2">
+				<button id="btn" @click="fnJoin">회원가입</button>
+			</div>
+			</template>
+			
+			<template v-else>
 			<h2>회원 가입</h2>
 			<div class="div2">
 				<input @keyup="fnChange" v-model="info.joinId" type="text" class="in" placeholder="아이디" ></input>
@@ -105,6 +148,8 @@
 			<div class="div2">
 				<button id="btn" @click="fnJoin">회원가입</button>
 			</div>
+			</template>
+			
 		</div> 
 	</body>
 </html>
@@ -113,7 +158,7 @@ var app = new Vue({
     el: '#app',
     data: {
 		info : {
-			joinId : "",
+			joinId : "${sessionId}",
 			pwd1 : "",
 			pwd2 : "",
 			name : "",
@@ -123,6 +168,8 @@ var app = new Vue({
 			addr : "서울"
 		}
 		, loginFlg : true
+		, userlist:{}
+		, sessionId:"${sessionId}"
     }   
     , methods: {
     	fnJoin : function(){
@@ -200,9 +247,31 @@ var app = new Vue({
                 }
             }); 
 	    }
+	    , fnUserlist : function(){
+	    	var self = this;
+	    	var nparmap = {id : self.joinId};
+	    	console.log(nparmap);
+            $.ajax({
+                url:"/user/userlist.dox",
+                dataType:"json",	
+                type : "POST", 
+                data : nparmap,
+                success : function(data) {
+                	
+   					self.userlist=data.searchUserlist
+   					console.log(self.userlist);
+                }
+            }); 
+	    }
     }   
     , created: function () {
-    
+    	var self=this;
+    	if("sessionId !=''"){
+    		self.fnUserlist();
+    	}else{
+    		
+    	}
+    	
 	}
 });
 </script>

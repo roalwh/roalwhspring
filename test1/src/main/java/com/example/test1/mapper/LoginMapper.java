@@ -16,4 +16,9 @@ public interface LoginMapper {
 	
 	// 회원가입
 	void insertUser(HashMap<String, Object> map);
+	
+	//메인페이지 패스워드 확인
+	int selectMypageUserCnt(HashMap<String, Object> map);
+	
+	User selectUserJoinList(HashMap<String, Object> map);
 }

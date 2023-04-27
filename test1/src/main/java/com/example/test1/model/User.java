@@ -6,6 +6,7 @@ import lombok.Data;
 public class User {
 	private String id;
 	private String name;
+	private String password;
 	private String nickname;
 	private String address;
 	private String gender;
@@ -88,5 +89,11 @@ public class User {
 	}
 	public void setAuthYn(String authYn) {
 		this.authYn = authYn;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

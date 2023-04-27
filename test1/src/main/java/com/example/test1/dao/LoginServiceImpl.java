@@ -49,4 +49,18 @@ public class LoginServiceImpl implements LoginService{
 		return loginMapper.selectUserCnt(map);
 	}
 
+	@Override
+	public int searchMypageUserCnt(HashMap<String, Object> map) {
+		
+		return loginMapper.selectMypageUserCnt(map);
+	}
+	
+	@Override
+	public HashMap<String, Object> searchUserJoinInfo(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		
+		return resultMap;
+	}
 }

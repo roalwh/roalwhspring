@@ -14,4 +14,9 @@ public interface LoginService {
 	
 	// 회원 중복체크
 	int searchUserCnt(HashMap<String, Object> map);
+	
+	// 회원 중복체크
+	int searchMypageUserCnt(HashMap<String, Object> map);
+	// 회원정보 수정
+	HashMap<String, Object> searchUserJoinInfo(HashMap<String, Object> map);
 }

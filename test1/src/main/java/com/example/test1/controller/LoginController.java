@@ -1,7 +1,10 @@
 package com.example.test1.controller;
 
+
+
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +61,8 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/join.do") 
-    public String join(Model model) throws Exception{
-
+    public String join(HttpServletRequest request, Model model) throws Exception{
+		request.setAttribute("sessionId", session.getAttribute("sessionId"));
         return "/join";
     }
 	
@@ -72,12 +75,38 @@ public class LoginController {
 		return new Gson().toJson(resultMap);
 	}
 	
+	
 	@RequestMapping(value = "/user/check.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String check(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		int cnt = loginService.searchUserCnt(map);
 		resultMap.put("cnt", cnt);
+		resultMap.put("result", "success");
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/user/userlist.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String searchUserlist(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = loginService.searchUserJoinInfo(map);
+		resultMap.put("result", "success");
+		return new Gson().toJson(resultMap);
+	}
+	
+	
+	@RequestMapping("/mypage.do") 
+    public String movemypage(HttpServletRequest request, Model model) throws Exception{
+		request.setAttribute("sessionId", session.getAttribute("sessionId"));
+        return "/mypage";
+    }
+	@RequestMapping(value = "/bbs/mypage.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String passchk(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		int passcnkflg = loginService.searchMypageUserCnt(map);
+		resultMap.put("passcnkflg", passcnkflg);
 		resultMap.put("result", "success");
 		return new Gson().toJson(resultMap);
 	}

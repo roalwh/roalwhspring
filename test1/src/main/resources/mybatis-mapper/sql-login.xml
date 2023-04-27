@@ -28,10 +28,35 @@
 		WHERE ID = #{id}
 	</select>
 	
+	<select id="selectMypageUserCnt" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*) AS CNT
+		FROM T_USER
+		WHERE ID = #{id} and PASSWORD=#{password}
+	</select>
+	
 	<insert id="insertUser" parameterType="hashmap">
 		INSERT INTO T_USER
 		VALUES
 			(#{joinId}, #{pwd1}, #{name}, #{nick}, #{addr}, #{gender}, NULL, #{age}, NULL, NULL, NULL, 0, 'Y', 'Y', 'C')
 	</insert>
+	
+	<select id="selectUserJoinList" parameterType="hashmap" resultType="com.example.test1.model.User">
+		SELECT
+			ID,
+			NAME,
+			NICKNAME,
+			ADDRESS,
+			GENDER,
+			PHONE,
+			AGE,
+			BIRTH,
+			EMAIL,
+			POINT,
+			AUTHYN,
+			STATUS
+		FROM T_USER
+		WHERE ID = #{id};
+					
+	</select>
 	
 </mapper>

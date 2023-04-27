@@ -9,7 +9,7 @@
 	<!-- 페이징 추가 1-->
 	<script src="https://unpkg.com/vuejs-paginate@latest"></script>
 	<script src="https://unpkg.com/vuejs-paginate@0.9.0"></script>
-	<title>첫번째 페이지</title>
+	<title>게시판</title>
 </head>
 <style>
 	<!-- 페이징 추가 2-->
@@ -49,6 +49,17 @@
 <body>
 	<div id="app">
 		<div class="container">
+			<!-- <div><button class="btn" style="float: left;" @clock="fnlogout">로그아웃</button></div> -->
+			<template>
+				
+				<div v-if="sessionId !=''" style="float: right;">
+					<button  class="btn" @click="fnTomypage">마이 페이지</button>
+					<button  class="btn" @click="fnlogout">로그아웃</button>
+				</div>
+				<div v-else style="float: right;">
+					<button class="btn" @click="fnTologin">로그인</button>
+				</div>
+			</template>
 			<label>검색어 : <input type="text" v-model="keyword"></label>
 			<select v-model="selectItem">
 				<option value="1">제목</option>
@@ -81,7 +92,7 @@
 	                    </tr>                                       
 	                </tbody>                   
 	            </table>
-	            <!-- 페이징 추가 3-->
+	            <!-- 페이징 추가 3 -->
 				<template>
 				  <paginate
 				    :page-count="pageCount"
@@ -115,7 +126,7 @@ var app = new Vue({
 		selectItem : "",
 		sessionId : "${sessionId}",
 		sessionStatus : "${sessionStatus}",
-			<!-- 페이징 추가 5-->
+			/* 페이징 추가 5 */
 		selectPage: 1,
 		pageCount: 1,
 		cnt : 0
@@ -123,7 +134,7 @@ var app = new Vue({
     , methods: {
     	fnGetList : function(){
             var self = this;
-            <!-- 페이징 추가 6-->
+            /* 페이징 추가 6 */
             /* selectPage 시작점에서 ~까지 가져올지  */
 			var startNum = ((self.selectPage-1) * 10);
     		var lastNum = (self.selectPage * 10) + 1
@@ -141,7 +152,7 @@ var app = new Vue({
                 }
             }); 
         } 
-	    <!-- 페이징 추가 7-->
+	    /* 페이징 추가 7 */
 		, fnSearch : function(pageNum){
 			var self = this;
 			self.selectPage = pageNum;
@@ -215,6 +226,18 @@ var app = new Vue({
     		var self = this;
     		self.pageChange("./read.do", {boardNo : boardNo});
     	}
+		,fnlogout : function(){
+			var self=this;
+			self.sessionId = "";
+			self.sessionStatus = "";
+/* 			location.href="bbs.do"; */
+		}
+		, fnTomypage : function(){
+			location.href="mypage.do"
+		}
+		, fnTologin : function(){
+			location.href="login.do";
+		}
     }   
     , created: function () {
     	var self = this;
