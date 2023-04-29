@@ -6,10 +6,10 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<jsp:include page="/layout/menu.jsp"></jsp:include>
-	<link rel="stylesheet" type="text/css" href="/css/ckeditor/styles.css">
+	<link rel="stylesheet" type="text/css" href="/js/ckeditor5/sample/css/sample.css">
 	<link rel="stylesheet" href="css/style.css">
 	
-	<script src="/js/ckeditor.js"></script>
+	<script src="/js/ckeditor5/sample."></script>
 
 	
 	<title>샘플 페이지</title>
