@@ -128,7 +128,12 @@ public class BbsController {
 		resultMap.put("result", "success");
 		return new Gson().toJson(resultMap);
 	}
-	
+	@RequestMapping("/editor.do") 
+    public String edit(HttpServletRequest request, Model model) throws Exception{
+		request.setAttribute("sessionId", session.getAttribute("sessionId"));
+		request.setAttribute("sessionStatus", session.getAttribute("sessionStatus"));
+		return "/bbs-edittor";
+    }
 }
 
 

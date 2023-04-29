@@ -6,6 +6,7 @@
 	<meta charset="UTF-8">
 	<jsp:include page="/layout/menu.jsp"></jsp:include>
 	<link rel="stylesheet" href="css/style.css">
+	
 	<title>샘플 페이지</title>
 </head>
 <style>
@@ -24,17 +25,21 @@
 					<td><input type="text" id="title" name="title" v-model="info.title"></td>
 				</tr>
 				<tr>
+					
 					<td colspan="2">
 						<textarea id="contents" name="contents" v-model="info.content"></textarea>
 					</td>
 				</tr>
 			</table>
+			
 			<button @click="" class="btn" style="float: right;">목록으로</button>
 			<button @click="fnEditBbs" class="btn" style="float: right;">수정</button>
 		</div>
 	</div>
 </body>
 </html>
+
+
 <script type="text/javascript">
 var app = new Vue({ 
     el: '#app',
@@ -79,7 +84,6 @@ var app = new Vue({
     , created: function () {
     	var self = this;
     	self.fnGetBoard();
-
 	}
 });
 </script>

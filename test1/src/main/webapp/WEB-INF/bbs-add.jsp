@@ -1,14 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<jsp:include page="/layout/menu.jsp"></jsp:include>
+	<link rel="stylesheet" type="text/css" href="/css/ckeditor/styles.css">
 	<link rel="stylesheet" href="css/style.css">
+	
+	<script src="/js/ckeditor.js"></script>
+
+	
 	<title>샘플 페이지</title>
 </head>
 <style>
+	
+	*{
+		border:1px dashed blueviolet
+	}
 </style>
 <body>
 	<div id="app">
@@ -25,16 +35,51 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<textarea id="contents" name="contents" v-model="content"></textarea>
+						
+						<!-- <textarea id="contents" name="contents" v-model="content"></textarea> -->
 					</td>
 				</tr>
 			</table>
+
+			<main>
+							
+				<div class="centered">
+					<div class="row row-editor">
+						<div class="editor-container">
+							<div class="editor">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</main>
 			<button @click="" class="btn" style="float: right;">목록으로</button>
 			<button @click="fnAddBbs()" class="btn" style="float: right;">저장</button>
 		</div>
+		
 	</div>
 </body>
 </html>
+
+<script>
+	ClassicEditor
+		.create( document.querySelector( '.editor' ), {
+			
+			licenseKey: '',
+
+		} )
+		.then( editor => {
+			window.editor = editor;
+
+		} )
+		.catch( error => {
+			console.error( 'Oops, something went wrong!' );
+			console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+			console.warn( 'Build id: poh14nld66ba-25nh7lcfw9by' );
+			console.error( error );
+		} );
+</script>
 <script type="text/javascript">
 var app = new Vue({ 
     el: '#app',
@@ -57,7 +102,7 @@ var app = new Vue({
                 data : nparmap,
                 success : function(data) { 
                 	alert("저장되었습니다.");
-                	location.href="bbs.do";
+                	// location.href="bbs.do";
                 }
             }); 
         } 
